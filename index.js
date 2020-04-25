@@ -18,12 +18,23 @@ const loadDisk = (disk, config = {}) => {
       const output = document.querySelector('#output');
       const newLine = document.createElement('div');
 
+      const line = output.appendChild(newLine);
       if (isImg) {
         newLine.classList.add('img');
+        line.innerText = str;
+      } else {
+        // render the text one character at a time
+        const delayPerChar = 20;
+        const totalDelay = delayPerChar * str.length;
+        str.split('').forEach((char, i) => {
+          setTimeout(() => {
+            line.textContent += char;
+          }, i * 20);
+        });
+        setTimeout(() => {
+          window.scrollTo(0, document.body.scrollHeight);
+        }, totalDelay);
       }
-
-      output.appendChild(newLine).innerText = str;
-      window.scrollTo(0, document.body.scrollHeight);
     },
     // prepare the environment
     setup: ({applyInput = (() => {}), navigateHistory = (() => {})}) => {
